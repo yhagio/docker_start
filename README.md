@@ -91,4 +91,26 @@ docker system prune
 
 # Get logs from container
 docker logs <container id>
+
+# Stop a container
+
+# Stop gracefully
+docker stop <container id>
+
+# Terminate immediately
+docker kill <container id>
+
+
+# Execute an additional command inside a container
+# '-it' : allow us to provide input to the container
+docker exec -it <container id> <command>
 ```
+
+### Create an image
+
+1 Create `Dockerfile`
+2 Specify a base image
+3 Run some commands to install dependencies to set up
+4 Specify a command to run the application on
+
+**See [examples](https://github.com/yhagio/docker_start/examples)**
