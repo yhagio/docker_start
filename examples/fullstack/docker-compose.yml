@@ -1,0 +1,45 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:10.5'
+  redis:
+    image: 'redis:4.0.11'
+  nginx:
+    restart: always # It has to be available all the time
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
+  api:
+    build:
+      dockerfile: Dockerfile.dev # Use dev dockerfile in server folder
+      context: ./server
+    volumes:
+      - /app/node_modules # Copy node_modules folder as is
+      - ./server:/app     # Copy rest of /server folder to /app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+  client:
+    build:
+      dockerfile: Dockerfile.dev # Use dev dockerfile in server folder
+      context: ./client
+    volumes:
+      - /app/node_modules # Copy node_modules folder as is
+      - ./client:/app     # Copy rest of /client folder to /app
+  worker:
+    build:
+      dockerfile: Dockerfile.dev # Use dev dockerfile in server folder
+      context: ./worker
+    volumes:
+      - /app/node_modules # Copy node_modules folder as is
+      - ./worker:/app     # Copy rest of /worker folder to /app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379

@@ -1,0 +1,37 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t yhagio/client-test -f ./client/Dockerfile.dev ./client
+
+# Run tests
+script:
+  - docker run yhagio/client-test npm test -- --coverage
+
+# Build production after all tests are passed
+after_success:
+  - docker build -t yhagio/fullstack-client ./client
+  - docker build -t yhagio/fullstack-nginx ./nginx
+  - docker build -t yhagio/fullstack-server ./server
+  - docker build -t yhagio/fullstack-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push yhagio/fullstack-client
+  - docker push yhagio/fullstack-nginx
+  - docker push yhagio/fullstack-server
+  - docker push yhagio/fullstack-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-1
+  app: fullstack-docker
+  env: FullstackDocker-env
+  bucket_name: elasticbeanstalk-us-west-1-304976629374
+  bucket_path: fullstack-docker
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY

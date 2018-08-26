@@ -1,0 +1,27 @@
+{
+  "name": "worker",
+  "version": "0.1.0",
+  "description": "simple node.js worker in a container",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon"
+  },
+  "engines": {
+    "node": "8.11.4",
+    "npm": "5.6.0"
+  },
+  "keywords": [
+    "Node.js",
+    "Express",
+    "Docker"
+  ],
+  "author": "Yuichi Hagio",
+  "license": "ISC",
+  "dependencies": {
+    "redis": "2.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.3"
+  }
+}
