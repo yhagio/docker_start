@@ -2,7 +2,6 @@
 
 ![docker](https://d1q6f0aelx0por.cloudfront.net/product-logos/75765bad-5683-40e7-b4cb-cdd4f7cc9b9e-docker.png)
 
-
 Download Docker
 
 ### Ubuntu (18.04)
@@ -54,6 +53,11 @@ Share images, automate workflows, and more with a free Docker ID:
 For more examples and ideas, visit:
  https://docs.docker.com/engine/userguide/
 ```
+
+Install docker-compose
+
+https://docs.docker.com/compose/install/
+
 
 ### Commands
 
@@ -107,6 +111,11 @@ docker kill <container id>
 # Execute an additional command inside a container
 # '-it' : allow us to provide input to the container
 docker exec -it <container id> <command>
+
+
+
+# Port mapping localhost:8080 <-> container's :8080
+docker run -p 8080:8080 <container id>
 ```
 
 ### Create an image
